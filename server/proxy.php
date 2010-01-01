@@ -1,4 +1,10 @@
 <?php
+
+// webpage-tunnel server page 
+// http://code.google.com/p/webpage-tunnel/
+// base on http://webproxytunnel.sourceforge.net/
+// this file under GPLv3
+
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     if ($_GET["test"] != null) {
         $fp1 = fsockopen("www.google.com", 80);

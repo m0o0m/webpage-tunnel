@@ -45,7 +45,7 @@ public class MainFrame extends JFrame {
 
 	private static final int FRAME_WIDTH = 520;
 	private static final int FRAME_HEIGHT = 460;
-	private static final String FRAME_TITLE = "Web page tunnel v0.1";
+	private static final String FRAME_TITLE = "Webpage tunnel v0.1";
 	private static final int GAP_SIZE = 3;
 	private static final int BORDER_SIZE = 6;
 	private static final String PROCOTOL_PREFIX = "http://";
@@ -267,8 +267,11 @@ public class MainFrame extends JFrame {
 
 	private void showAboutDialog() {
 		String aboutText;
-		aboutText = "Web page tunnel v0.1\nunder GPLv3 write by muzuiget\n"
-				+ "base on India Web Proxy v1.0\nwrite by Arunava  Bhowmick";
+		aboutText = "Webpage tunnel v0.1\n" + "under GPLv3 write by muzuiget\n"
+				+ "http://code.google.com/p/webpage-tunnel/\n"
+				+ "base on India Web Proxy v1.0\n"
+				+ "write by Arunava  Bhowmick\n"
+				+ "http://webproxytunnel.sourceforge.net/";
 		JOptionPane.showMessageDialog(null, aboutText, "关于",
 				JOptionPane.INFORMATION_MESSAGE);
 	}
