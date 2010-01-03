@@ -80,8 +80,6 @@ public class ProxyConstants {
 
 	// Organization Proxy Information ==============================
 
-	public static boolean ORGANIZATION_HTTP_PROXY_ENABLED = false;
-
 	public static String ORGANIZATION_HTTP_PROXY_HOST = "";
 
 	public static int ORGANIZATION_HTTP_PROXY_PORT = 0;
@@ -106,4 +104,11 @@ public class ProxyConstants {
 	// SHOULD be same as defined in PHP file.
 	public static int ENCKEY = 20;
 
+	// webpage-tunnel add
+
+	// use organization http proxy
+	public static boolean ORGANIZATION_HTTP_PROXY_ENABLED = false;
+
+	// auto start and hide to system tray
+	public static boolean AUTO_START_AND_HIDE = false;
 }

@@ -60,12 +60,10 @@ public class Common {
 					.readObject();
 			ProxyConstants.HTTPProxyPort = Integer.parseInt(configMap
 					.get("ProxyConstants.HTTPProxyPort"));
-			ProxyConstants.webPHP_PORT_HTTP = Integer
-					.parseInt(configMap
-							.get("ProxyConstants.webPHP_PORT_HTTP"));
-			ProxyConstants.ENCRYPTION_ENABLED = Boolean
-					.parseBoolean(configMap
-							.get("ProxyConstants.ENCRYPTION_ENABLED"));
+			ProxyConstants.webPHP_PORT_HTTP = Integer.parseInt(configMap
+					.get("ProxyConstants.webPHP_PORT_HTTP"));
+			ProxyConstants.ENCRYPTION_ENABLED = Boolean.parseBoolean(configMap
+					.get("ProxyConstants.ENCRYPTION_ENABLED"));
 			ProxyConstants.ORGANIZATION_HTTP_PROXY_USER_PASS = configMap
 					.get("ProxyConstants.ORGANIZATION_HTTP_PROXY_USER_PASS");
 			ProxyConstants.HTTPSPort_8443 = Integer.parseInt(configMap
@@ -100,6 +98,8 @@ public class Common {
 			ProxyConstants.ORGANIZATION_HTTP_PROXY_ENABLED = Boolean
 					.parseBoolean(configMap
 							.get("ProxyConstants.ORGANIZATION_HTTP_PROXY_ENABLED"));
+			ProxyConstants.AUTO_START_AND_HIDE = Boolean.parseBoolean(configMap
+					.get("ProxyConstants.AUTO_START_AND_HIDE"));
 			oin.close();
 			fin.close();
 		} catch (Exception e) {
@@ -153,6 +153,8 @@ public class Common {
 							"ProxyConstants.ORGANIZATION_HTTP_PROXY_ENABLED",
 							String
 									.valueOf(ProxyConstants.ORGANIZATION_HTTP_PROXY_ENABLED));
+			configMap.put("ProxyConstants.AUTO_START_AND_HIDE", String
+					.valueOf(ProxyConstants.AUTO_START_AND_HIDE));
 			oout.writeObject(configMap);
 			oout.flush();
 			oout.close();

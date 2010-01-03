@@ -31,8 +31,8 @@ import com.india.arunava.network.utils.ProxyConstants;
 @SuppressWarnings("serial")
 public class SettingDialog extends JDialog implements MouseListener {
 
-	private static final int DIALOG_WIDTH = 420;
-	private static final int DIALOG_HEIGHT = 420;
+	private static final int DIALOG_WIDTH = 400;
+	private static final int DIALOG_HEIGHT = 400;
 	private static final String DIALOG_TITLE = "高级设置";
 	private static final int GAP_SIZE = 3;
 	private static final int BORDER_SIZE = 6;
