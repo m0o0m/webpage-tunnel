@@ -1,12 +1,19 @@
 package webpagetunnel;
 
+import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.MediaTracker;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
 import java.awt.Toolkit;
+import java.awt.TrayIcon;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
@@ -44,7 +51,7 @@ import com.india.arunava.network.utils.ProxyConstants;
 public class MainFrame extends JFrame {
 
 	private static final int FRAME_WIDTH = 520;
-	private static final int FRAME_HEIGHT = 460;
+	private static final int FRAME_HEIGHT = 420;
 	private static final String FRAME_TITLE = "Webpage tunnel v0.1";
 	private static final int GAP_SIZE = 3;
 	private static final int BORDER_SIZE = 6;
@@ -52,10 +59,13 @@ public class MainFrame extends JFrame {
 
 	private JTextField proxyPageTextField, portTextField;
 	private JTextArea logTextArea;
-	private JCheckBox useEncryptCheckBox;
-	private JButton testButton, settingButton, runButton, aboutButton,
-			exitButton;
+	private JCheckBox autoHideCheckBox, useEncryptCheckBox;
+	private JButton testButton, settingButton, runButton, hideButton,
+			aboutButton, exitButton;
 	private JPanel contentPanel;
+	private Image iconImage;
+	private TrayIcon trayIcon;
+	private MenuItem displayItem, exitItem;
 
 	private ButtonMouseAdapter buttonMouseAdapter;
 
@@ -74,7 +84,16 @@ public class MainFrame extends JFrame {
 		Common.initCertificate();
 		Common.initSettings();
 		MainFrame mainFrame = new MainFrame();
-		mainFrame.setVisible(true);
+		mainFrame.initRunStatus();
+	}
+
+	public void initRunStatus() {
+		if (ProxyConstants.AUTO_START_AND_HIDE) {
+			runProxyServer();
+			setVisible(false);
+		} else {
+			setVisible(true);
+		}
 	}
 
 	private void initComponents() {
@@ -82,13 +101,18 @@ public class MainFrame extends JFrame {
 		portTextField = new JTextField(String
 				.valueOf(ProxyConstants.HTTPProxyPort));
 		logTextArea = new JTextArea();
+		autoHideCheckBox = new JCheckBox("自动启动并最小化",
+				ProxyConstants.AUTO_START_AND_HIDE);
 		useEncryptCheckBox = new JCheckBox("使用加密传输",
 				ProxyConstants.ENCRYPTION_ENABLED);
 		testButton = new JButton("测试");
 		settingButton = new JButton("高级设置");
 		runButton = new JButton("启动");
+		hideButton = new JButton("最小化");
 		aboutButton = new JButton("关于");
 		exitButton = new JButton("退出");
+		displayItem = new MenuItem("显示");
+		exitItem = new MenuItem("退出");
 		contentPanel = new JPanel();
 		buttonMouseAdapter = new ButtonMouseAdapter();
 		System.setOut(new PrintStream(new TextAreaOutputStream(logTextArea)));
@@ -96,6 +120,7 @@ public class MainFrame extends JFrame {
 
 	private void setupGUI() {
 		setupMainWindow();
+		setupSystemTray();
 		setupContentPanel();
 		this.getContentPane().add(contentPanel);
 	}
@@ -109,16 +134,40 @@ public class MainFrame extends JFrame {
 		setLocation((screenSize.width - windowSize.width) / 2,
 				(screenSize.height - windowSize.height) / 2);
 
-		Image icon = getToolkit().getImage(
+		iconImage = getToolkit().getImage(
 				this.getClass().getClassLoader().getResource("res/icon.png"));
 		MediaTracker mt = new MediaTracker(this);
-		mt.addImage(icon, 0);
+		mt.addImage(iconImage, 0);
 		try {
 			mt.waitForID(0);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		setIconImage(icon);
+		setIconImage(iconImage);
+	}
+
+	private void setupSystemTray() {
+		if (SystemTray.isSupported()) {
+			PopupMenu popup = new PopupMenu();
+			SystemTray tray = SystemTray.getSystemTray();
+			Dimension iconDimension = tray.getTrayIconSize();
+			trayIcon = new TrayIcon(iconImage.getScaledInstance(
+					iconDimension.width, iconDimension.height,
+					Image.SCALE_SMOOTH), "webpage-tunnel");
+			popup.add(displayItem);
+			popup.add(exitItem);
+			trayIcon.setPopupMenu(popup);
+			try {
+				tray.add(trayIcon);
+			} catch (AWTException e) {
+				e.printStackTrace();
+			}
+			return;
+		} else {
+			String message_text = "你的系统不支持最小化到通知区域";
+			JOptionPane.showMessageDialog(null, message_text, "错误",
+					JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	private void setupContentPanel() {
@@ -145,6 +194,8 @@ public class MainFrame extends JFrame {
 		north_panel_child1.add(Box.createHorizontalStrut(GAP_SIZE));
 		north_panel_child1.add(portTextField);
 		north_panel_child1.add(Box.createHorizontalStrut(GAP_SIZE));
+		north_panel_child1.add(autoHideCheckBox);
+		north_panel_child1.add(Box.createHorizontalStrut(GAP_SIZE));
 		north_panel_child1.add(useEncryptCheckBox);
 		north_panel_child1.add(Box.createHorizontalStrut(GAP_SIZE));
 		north_panel_child1.add(settingButton);
@@ -162,6 +213,7 @@ public class MainFrame extends JFrame {
 
 		JPanel south_panel = new JPanel();
 		south_panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		south_panel.add(hideButton);
 		south_panel.add(aboutButton);
 		south_panel.add(exitButton);
 
@@ -229,8 +281,11 @@ public class MainFrame extends JFrame {
 	}
 
 	private void runProxyServer() {
-		updateSettings();
+		if (!runButton.isEnabled()) {
+			return;
+		}
 
+		updateSettings();
 		ProxyRunner.runServers();
 		while (HTTPProxyServerStarter.started == 0
 				|| HttpsServerStarter_443.started == 0
@@ -257,12 +312,17 @@ public class MainFrame extends JFrame {
 		ProxyConstants.HTTPProxyPort = port;
 		ProxyConstants.webPHP_URL_HTTP = url;
 		ProxyConstants.ENCRYPTION_ENABLED = useEncryptCheckBox.isSelected();
+		ProxyConstants.AUTO_START_AND_HIDE = autoHideCheckBox.isSelected();
 		Common.saveSettings();
 	}
 
 	private void showSettingDialog() {
 		SettingDialog settingDialog = new SettingDialog();
 		settingDialog.setVisible(true);
+	}
+
+	private void hideToSystemTray(boolean hide) {
+		setVisible(!hide);
 	}
 
 	private void showAboutDialog() {
@@ -281,8 +341,20 @@ public class MainFrame extends JFrame {
 		testButton.addMouseListener(buttonMouseAdapter);
 		settingButton.addMouseListener(buttonMouseAdapter);
 		runButton.addMouseListener(buttonMouseAdapter);
+		hideButton.addMouseListener(buttonMouseAdapter);
 		aboutButton.addMouseListener(buttonMouseAdapter);
 		exitButton.addMouseListener(buttonMouseAdapter);
+		trayIcon.addMouseListener(buttonMouseAdapter);
+		displayItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				hideToSystemTray(false);
+			}
+		});
+		exitItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
 	}
 
 	private class ButtonMouseAdapter extends MouseAdapter {
@@ -299,8 +371,16 @@ public class MainFrame extends JFrame {
 				return;
 			}
 			if (source == runButton) {
-				if (runButton.isEnabled()) {
-					runProxyServer();
+				runProxyServer();
+				return;
+			}
+			if (source == hideButton) {
+				hideToSystemTray(true);
+				return;
+			}
+			if (source == trayIcon) {
+				if (e.getButton() == MouseEvent.BUTTON1) {
+					hideToSystemTray(false);
 				}
 				return;
 			}
@@ -309,6 +389,7 @@ public class MainFrame extends JFrame {
 				return;
 			}
 			if (source == exitButton) {
+				updateSettings();
 				System.exit(0);
 				return;
 			}
