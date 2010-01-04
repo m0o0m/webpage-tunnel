@@ -36,6 +36,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.Timer;
 import javax.swing.UIManager;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -66,6 +67,8 @@ public class MainFrame extends JFrame {
 	private Image iconImage;
 	private TrayIcon trayIcon;
 	private MenuItem displayItem, exitItem;
+	private JLabel transferLabel;
+	private Timer timer;
 
 	private ButtonMouseAdapter buttonMouseAdapter;
 
@@ -113,6 +116,8 @@ public class MainFrame extends JFrame {
 		exitButton = new JButton("退出");
 		displayItem = new MenuItem("显示");
 		exitItem = new MenuItem("退出");
+		transferLabel = new JLabel("0.00 KB");
+		timer = new Timer(3000, null);
 		contentPanel = new JPanel();
 		buttonMouseAdapter = new ButtonMouseAdapter();
 		System.setOut(new PrintStream(new TextAreaOutputStream(logTextArea)));
@@ -153,7 +158,7 @@ public class MainFrame extends JFrame {
 			Dimension iconDimension = tray.getTrayIconSize();
 			trayIcon = new TrayIcon(iconImage.getScaledInstance(
 					iconDimension.width, iconDimension.height,
-					Image.SCALE_SMOOTH), "webpage-tunnel");
+					Image.SCALE_SMOOTH), "流量统计: 0.00 KB");
 			popup.add(displayItem);
 			popup.add(exitItem);
 			trayIcon.setPopupMenu(popup);
@@ -212,10 +217,21 @@ public class MainFrame extends JFrame {
 		center_panel.add(new JScrollPane(logTextArea), BorderLayout.CENTER);
 
 		JPanel south_panel = new JPanel();
-		south_panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		south_panel.add(hideButton);
-		south_panel.add(aboutButton);
-		south_panel.add(exitButton);
+		south_panel.setLayout(new BorderLayout());
+
+		JPanel south_panel_child0 = new JPanel();
+		south_panel_child0.setLayout(new FlowLayout(FlowLayout.LEFT));
+		south_panel_child0.add(new JLabel("流量统计: "));
+		south_panel_child0.add(transferLabel);
+
+		JPanel south_panel_child1 = new JPanel();
+		south_panel_child1.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		south_panel_child1.add(hideButton);
+		south_panel_child1.add(aboutButton);
+		south_panel_child1.add(exitButton);
+
+		south_panel.add(south_panel_child0, BorderLayout.WEST);
+		south_panel.add(south_panel_child1, BorderLayout.EAST);
 
 		contentPanel.setBorder(new EmptyBorder(BORDER_SIZE, BORDER_SIZE,
 				BORDER_SIZE, BORDER_SIZE));
@@ -301,6 +317,7 @@ public class MainFrame extends JFrame {
 			System.exit(1);
 		}
 		runButton.setEnabled(false);
+		timer.start();
 	}
 
 	private void updateSettings() {
@@ -314,6 +331,18 @@ public class MainFrame extends JFrame {
 		ProxyConstants.ENCRYPTION_ENABLED = useEncryptCheckBox.isSelected();
 		ProxyConstants.AUTO_START_AND_HIDE = autoHideCheckBox.isSelected();
 		Common.saveSettings();
+	}
+
+	private void updateTransferText() {
+		String transferText;
+		float transfer = (float) ProxyConstants.TOTAL_TRANSFER / 1024;
+		if (transfer < 1024) {
+			transferText = String.format("%.2f KB", transfer);
+		} else {
+			transferText = String.format("%.2f MB", transfer / 1024);
+		}
+		transferLabel.setText(transferText);
+		trayIcon.setToolTip("流量统计: " + transferText);
 	}
 
 	private void showSettingDialog() {
@@ -351,8 +380,17 @@ public class MainFrame extends JFrame {
 			}
 		});
 		exitItem.addActionListener(new ActionListener() {
+
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
+			}
+		});
+		timer.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				updateTransferText();
 			}
 		});
 	}
