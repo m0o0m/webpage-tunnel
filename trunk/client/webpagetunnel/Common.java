@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 
 import com.india.arunava.network.utils.ProxyConstants;
@@ -18,7 +19,12 @@ public class Common {
 
 	public static void initCertificate() {
 		ClassLoader classLoader = Common.class.getClassLoader();
-		Common.runFileDirectory = classLoader.getResource(".").getPath();
+		try {
+			Common.runFileDirectory = classLoader.getResource(".").toURI()
+					.getPath();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
 		File outerCertFile = new File(Common.runFileDirectory,
 				"ProxyCertificate.ser");
 		if (!outerCertFile.exists()) {
