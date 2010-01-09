@@ -46,7 +46,7 @@ public class ProxyConstants {
 	// Certificate Info ==================================
 
 	public static String KEYSTORE_PATH = Common.runFileDirectory
-			+ File.separator + "ProxyCertificate.ser";
+			+ File.separator + "webpage-tunnel.cert";
 
 	public static String KEYSTORE_PASSWORD = "password";
 

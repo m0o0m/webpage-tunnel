@@ -27,13 +27,13 @@ public class Common {
 			e.printStackTrace();
 		}
 		File outerCertFile = new File(Common.runFileDirectory,
-				"ProxyCertificate.ser");
+				"webpage-tunnel.cert");
 		if (!outerCertFile.exists()) {
 			try {
 				outerCertFile.createNewFile();
 				FileOutputStream fos = new FileOutputStream(outerCertFile);
 				InputStream fis = classLoader
-						.getResourceAsStream("res/ProxyCertificate.ser");
+						.getResourceAsStream("res/webpage-tunnel.cert");
 				byte[] buffer = new byte[1024];
 				int length = 0;
 				while ((length = fis.read(buffer)) != -1) {
