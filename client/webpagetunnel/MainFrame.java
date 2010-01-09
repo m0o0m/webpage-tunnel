@@ -53,7 +53,7 @@ public class MainFrame extends JFrame {
 
 	private static final int FRAME_WIDTH = 520;
 	private static final int FRAME_HEIGHT = 420;
-	private static final String FRAME_TITLE = "Webpage tunnel v0.1";
+	private static final String FRAME_TITLE = "Webpage tunnel v0.1.1";
 	private static final int GAP_SIZE = 3;
 	private static final int BORDER_SIZE = 6;
 	private static final String PROCOTOL_PREFIX = "http://";
@@ -100,7 +100,7 @@ public class MainFrame extends JFrame {
 	}
 
 	private void initComponents() {
-		proxyPageTextField = new JTextField(ProxyConstants.webPHP_URL_HTTP);
+		proxyPageTextField = new JTextField(ProxyConstants.HTTP_FULL_URL);
 		portTextField = new JTextField(String
 				.valueOf(ProxyConstants.HTTPProxyPort));
 		logTextArea = new JTextArea();
@@ -322,15 +322,12 @@ public class MainFrame extends JFrame {
 	}
 
 	private void updateSettings() {
-		int port = Integer.parseInt(portTextField.getText().trim());
-		String url = proxyPageTextField.getText().trim();
-		int index = url.indexOf("/", PROCOTOL_PREFIX.length());
-		String host = url.substring(PROCOTOL_PREFIX.length(), index);
-		ProxyConstants.webPHP_HOST_HTTP = host;
-		ProxyConstants.HTTPProxyPort = port;
-		ProxyConstants.webPHP_URL_HTTP = url;
+		ProxyConstants.HTTP_FULL_URL = proxyPageTextField.getText().trim();
+		ProxyConstants.HTTPProxyPort = Integer.parseInt(portTextField.getText()
+				.trim());
 		ProxyConstants.ENCRYPTION_ENABLED = useEncryptCheckBox.isSelected();
 		ProxyConstants.AUTO_START_AND_HIDE = autoHideCheckBox.isSelected();
+		Common.parseFullUrl();
 		Common.saveSettings();
 	}
 

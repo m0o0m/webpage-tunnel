@@ -111,4 +111,7 @@ public class ProxyConstants {
 
 	// auto start and hide to system tray
 	public static boolean AUTO_START_AND_HIDE = false;
+
+	// http webpage full url
+	public static String HTTP_FULL_URL = "http://www.example.com/proxy.php";
 }
