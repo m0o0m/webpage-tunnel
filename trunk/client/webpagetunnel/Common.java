@@ -9,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.URISyntaxException;
 import java.util.HashMap;
+import java.util.Properties;
 
 import com.india.arunava.network.utils.ProxyConstants;
 
@@ -49,7 +50,7 @@ public class Common {
 	}
 
 	public static void initSettings() {
-		file = new File(Common.runFileDirectory, "ProxyConfig.dat");
+		file = new File(Common.runFileDirectory, "webpage-tunnel.cfg");
 		if (file.exists() && file.canRead()) {
 			loadSettings();
 		} else {
@@ -57,56 +58,56 @@ public class Common {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public static void loadSettings() {
 		try {
 			FileInputStream fin = new FileInputStream(file);
-			ObjectInputStream oin = new ObjectInputStream(fin);
-			HashMap<String, String> configMap = (HashMap<String, String>) oin
-					.readObject();
-			ProxyConstants.HTTPProxyPort = Integer.parseInt(configMap
-					.get("ProxyConstants.HTTPProxyPort"));
-			ProxyConstants.webPHP_PORT_HTTP = Integer.parseInt(configMap
-					.get("ProxyConstants.webPHP_PORT_HTTP"));
-			ProxyConstants.ENCRYPTION_ENABLED = Boolean.parseBoolean(configMap
-					.get("ProxyConstants.ENCRYPTION_ENABLED"));
-			ProxyConstants.ORGANIZATION_HTTP_PROXY_USER_PASS = configMap
-					.get("ProxyConstants.ORGANIZATION_HTTP_PROXY_USER_PASS");
-			ProxyConstants.HTTPSPort_8443 = Integer.parseInt(configMap
-					.get("ProxyConstants.HTTPSPort_8443"));
-			ProxyConstants.webPHP_URL_HTTP = configMap
-					.get("ProxyConstants.webPHP_URL_HTTP");
-			ProxyConstants.logLevel = Integer.parseInt(configMap
-					.get("ProxyConstants.logLevel"));
-			ProxyConstants.MAX_BUFFER = Integer.parseInt(configMap
-					.get("ProxyConstants.MAX_BUFFER"));
-			ProxyConstants.HTTPProxyHost = configMap
-					.get("ProxyConstants.HTTPProxyHost");
-			ProxyConstants.webPHP_HOST_HTTP = configMap
-					.get("ProxyConstants.webPHP_HOST_HTTP");
-			ProxyConstants.SSLProxyPort = Integer.parseInt(configMap
-					.get("ProxyConstants.SSLProxyPort"));
-			ProxyConstants.HTTPSPort_443 = Integer.parseInt(configMap
-					.get("ProxyConstants.HTTPSPort_443"));
-			ProxyConstants.HTTPSServer_8443 = configMap
-					.get("ProxyConstants.HTTPSServer_8443");
-			ProxyConstants.ORGANIZATION_HTTP_PROXY_PORT = Integer
-					.parseInt(configMap
-							.get("ProxyConstants.ORGANIZATION_HTTP_PROXY_PORT"));
-			ProxyConstants.HTTPSServer_443 = configMap
-					.get("ProxyConstants.HTTPSServer_443");
-			ProxyConstants.ORGANIZATION_HTTP_PROXY_USER_NAME = configMap
-					.get("ProxyConstants.ORGANIZATION_HTTP_PROXY_USER_NAME");
-			ProxyConstants.SSLProxyHost = configMap
-					.get("ProxyConstants.SSLProxyHost");
-			ProxyConstants.ORGANIZATION_HTTP_PROXY_HOST = configMap
-					.get("ProxyConstants.ORGANIZATION_HTTP_PROXY_HOST");
+			Properties properties = new Properties();
+			properties.load(fin);
+
+			ProxyConstants.webPHP_HOST_HTTP = properties
+					.getProperty("server.host");
+			ProxyConstants.webPHP_PORT_HTTP = Integer.parseInt(properties
+					.getProperty("server.port"));
+			ProxyConstants.webPHP_URL_HTTP = properties
+					.getProperty("server.url");
+
+			ProxyConstants.HTTPProxyHost = properties
+					.getProperty("client.http.host");
+			ProxyConstants.HTTPProxyPort = Integer.parseInt(properties
+					.getProperty("client.http.port"));
+			ProxyConstants.SSLProxyHost = properties
+					.getProperty("client.https.host");
+			ProxyConstants.SSLProxyPort = Integer.parseInt(properties
+					.getProperty("client.https.port"));
+			ProxyConstants.HTTPSServer_443 = properties
+					.getProperty("client.ssl443.host");
+			ProxyConstants.HTTPSPort_443 = Integer.parseInt(properties
+					.getProperty("client.ssl443.port"));
+			ProxyConstants.HTTPSServer_8443 = properties
+					.getProperty("client.ssl8443.host");
+			ProxyConstants.HTTPSPort_8443 = Integer.parseInt(properties
+					.getProperty("client.ssl8443.port"));
+
+			ProxyConstants.ENCRYPTION_ENABLED = Boolean.parseBoolean(properties
+					.getProperty("general.encryption"));
+			ProxyConstants.AUTO_START_AND_HIDE = Boolean
+					.parseBoolean(properties.getProperty("general.autoHide"));
+			ProxyConstants.logLevel = Integer.parseInt(properties
+					.getProperty("general.logLevel"));
+			ProxyConstants.MAX_BUFFER = Integer.parseInt(properties
+					.getProperty("general.maxBuffer"));
+
 			ProxyConstants.ORGANIZATION_HTTP_PROXY_ENABLED = Boolean
-					.parseBoolean(configMap
-							.get("ProxyConstants.ORGANIZATION_HTTP_PROXY_ENABLED"));
-			ProxyConstants.AUTO_START_AND_HIDE = Boolean.parseBoolean(configMap
-					.get("ProxyConstants.AUTO_START_AND_HIDE"));
-			oin.close();
+					.parseBoolean(properties.getProperty("proxy.enabled"));
+			ProxyConstants.ORGANIZATION_HTTP_PROXY_HOST = properties
+					.getProperty("proxy.host");
+			ProxyConstants.ORGANIZATION_HTTP_PROXY_PORT = Integer
+					.parseInt(properties.getProperty("proxy.port"));
+			ProxyConstants.ORGANIZATION_HTTP_PROXY_USER_NAME = properties
+					.getProperty("proxy.username");
+			ProxyConstants.ORGANIZATION_HTTP_PROXY_USER_PASS = properties
+					.getProperty("proxy.password");
+
 			fin.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -115,55 +116,54 @@ public class Common {
 
 	public static void saveSettings() {
 		try {
-			FileOutputStream fout = new FileOutputStream(file);
-			ObjectOutputStream oout = new ObjectOutputStream(fout);
-			HashMap<String, String> configMap = new HashMap<String, String>();
-			configMap.put("ProxyConstants.HTTPProxyPort", String
-					.valueOf(ProxyConstants.HTTPProxyPort));
-			configMap.put("ProxyConstants.webPHP_PORT_HTTP", String
-					.valueOf(ProxyConstants.webPHP_PORT_HTTP));
-			configMap.put("ProxyConstants.ENCRYPTION_ENABLED", String
-					.valueOf(ProxyConstants.ENCRYPTION_ENABLED));
-			configMap.put("ProxyConstants.ORGANIZATION_HTTP_PROXY_USER_PASS",
-					ProxyConstants.ORGANIZATION_HTTP_PROXY_USER_PASS);
-			configMap.put("ProxyConstants.HTTPSPort_8443", String
-					.valueOf(ProxyConstants.HTTPSPort_8443));
-			configMap.put("ProxyConstants.webPHP_URL_HTTP",
-					ProxyConstants.webPHP_URL_HTTP);
-			configMap.put("ProxyConstants.logLevel", String
-					.valueOf(ProxyConstants.logLevel));
-			configMap.put("ProxyConstants.MAX_BUFFER", String
-					.valueOf(ProxyConstants.MAX_BUFFER));
-			configMap.put("ProxyConstants.HTTPProxyHost",
-					ProxyConstants.HTTPProxyHost);
-			configMap.put("ProxyConstants.webPHP_HOST_HTTP",
+			Properties properties = new Properties();
+
+			properties.setProperty("server.host",
 					ProxyConstants.webPHP_HOST_HTTP);
-			configMap.put("ProxyConstants.SSLProxyPort", String
-					.valueOf(ProxyConstants.SSLProxyPort));
-			configMap.put("ProxyConstants.HTTPSPort_443", String
-					.valueOf(ProxyConstants.HTTPSPort_443));
-			configMap.put("ProxyConstants.HTTPSServer_8443",
-					ProxyConstants.HTTPSServer_8443);
-			configMap.put("ProxyConstants.ORGANIZATION_HTTP_PROXY_PORT", String
-					.valueOf(ProxyConstants.ORGANIZATION_HTTP_PROXY_PORT));
-			configMap.put("ProxyConstants.HTTPSServer_443",
-					ProxyConstants.HTTPSServer_443);
-			configMap.put("ProxyConstants.ORGANIZATION_HTTP_PROXY_USER_NAME",
-					ProxyConstants.ORGANIZATION_HTTP_PROXY_USER_NAME);
-			configMap.put("ProxyConstants.SSLProxyHost",
+			properties.setProperty("server.port", String
+					.valueOf(ProxyConstants.webPHP_PORT_HTTP));
+			properties
+					.setProperty("server.url", ProxyConstants.webPHP_URL_HTTP);
+
+			properties.setProperty("client.http.host",
+					ProxyConstants.HTTPProxyHost);
+			properties.setProperty("client.http.port", String
+					.valueOf(ProxyConstants.HTTPProxyPort));
+			properties.setProperty("client.https.host",
 					ProxyConstants.SSLProxyHost);
-			configMap.put("ProxyConstants.ORGANIZATION_HTTP_PROXY_HOST",
-					ProxyConstants.ORGANIZATION_HTTP_PROXY_HOST);
-			configMap
-					.put(
-							"ProxyConstants.ORGANIZATION_HTTP_PROXY_ENABLED",
-							String
-									.valueOf(ProxyConstants.ORGANIZATION_HTTP_PROXY_ENABLED));
-			configMap.put("ProxyConstants.AUTO_START_AND_HIDE", String
+			properties.setProperty("client.https.port", String
+					.valueOf(ProxyConstants.SSLProxyPort));
+			properties.setProperty("client.ssl443.host",
+					ProxyConstants.HTTPSServer_443);
+			properties.setProperty("client.ssl443.port", String
+					.valueOf(ProxyConstants.HTTPSPort_443));
+			properties.setProperty("client.ssl8443.host",
+					ProxyConstants.HTTPSServer_8443);
+			properties.setProperty("client.ssl8443.port", String
+					.valueOf(ProxyConstants.HTTPSPort_8443));
+
+			properties.setProperty("general.encryption", String
+					.valueOf(ProxyConstants.ENCRYPTION_ENABLED));
+			properties.setProperty("general.autoHide", String
 					.valueOf(ProxyConstants.AUTO_START_AND_HIDE));
-			oout.writeObject(configMap);
-			oout.flush();
-			oout.close();
+			properties.setProperty("general.logLevel", String
+					.valueOf(ProxyConstants.logLevel));
+			properties.setProperty("general.maxBuffer", String
+					.valueOf(ProxyConstants.MAX_BUFFER));
+
+			properties.setProperty("proxy.enabled", String
+					.valueOf(ProxyConstants.ORGANIZATION_HTTP_PROXY_ENABLED));
+			properties.setProperty("proxy.host",
+					ProxyConstants.ORGANIZATION_HTTP_PROXY_HOST);
+			properties.setProperty("proxy.port", String
+					.valueOf(ProxyConstants.ORGANIZATION_HTTP_PROXY_PORT));
+			properties.setProperty("proxy.username",
+					ProxyConstants.ORGANIZATION_HTTP_PROXY_USER_NAME);
+			properties.setProperty("proxy.password",
+					ProxyConstants.ORGANIZATION_HTTP_PROXY_USER_PASS);
+
+			FileOutputStream fout = new FileOutputStream(file);
+			properties.store(fout, "webpage-tunnel config file");
 			fout.close();
 		} catch (Exception e) {
 			e.printStackTrace();

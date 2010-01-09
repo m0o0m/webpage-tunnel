@@ -317,6 +317,7 @@ public class MainFrame extends JFrame {
 			System.exit(1);
 		}
 		runButton.setEnabled(false);
+		settingButton.setEnabled(false);
 		timer.start();
 	}
 
