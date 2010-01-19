@@ -45,7 +45,7 @@ public class ProxyConstants {
 
 	// Certificate Info ==================================
 
-	public static String KEYSTORE_PATH = Common.runFileDirectory
+	public static String KEYSTORE_PATH = Common.resourcesFolder
 			+ File.separator + "webpage-tunnel.cert";
 
 	public static String KEYSTORE_PASSWORD = "password";
@@ -114,4 +114,7 @@ public class ProxyConstants {
 
 	// http webpage full url
 	public static String HTTP_FULL_URL = "http://www.example.com/proxy.php";
+
+	// enable https
+	public static boolean HTTPS_ENABLED = true;
 }

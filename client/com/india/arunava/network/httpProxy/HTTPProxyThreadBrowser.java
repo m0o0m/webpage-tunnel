@@ -110,7 +110,7 @@ class HTTPProxyThreadBrowser extends Thread {
 			final String allInpRequest = header.toString();
 
 			// modify: if it is https request, resend to sslproxy
-			if (allInpRequest.startsWith("CONNECT ")) {
+			if (ProxyConstants.HTTPS_ENABLED && allInpRequest.startsWith("CONNECT ")) {
 				new SSLProxy(incoming, incoming.getInputStream(), incoming
 						.getOutputStream(), allInpRequest).start();
 				return;
