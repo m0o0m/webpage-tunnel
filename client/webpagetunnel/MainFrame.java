@@ -73,21 +73,16 @@ public class MainFrame extends JFrame {
 	private ButtonMouseAdapter buttonMouseAdapter;
 
 	public MainFrame() {
-		initComponents();
-		setupGUI();
-		setUpEventListener();
-	}
-
-	public static void main(String[] args) {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-		Common.initCertificate();
-		Common.initSettings();
-		MainFrame mainFrame = new MainFrame();
-		mainFrame.initRunStatus();
+		initComponents();
+		setupGUI();
+		setUpEventListener();
+		
+		initRunStatus();
 	}
 
 	public void initRunStatus() {
