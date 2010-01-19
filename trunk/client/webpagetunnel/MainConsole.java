@@ -7,16 +7,17 @@ import com.india.arunava.network.httpsServer.HttpsServerStarter_8443;
 
 public class MainConsole {
 
-	public static void main(String[] args) {
-		System.out.println("Runing in console mode");
+	public MainConsole() {
+		System.out.println("Running in console mode");
+		runProxyServer();
+	}
 
-		System.out.println(">>> Initializing...");
-		Common.initCertificate();
-		Common.initSettings();
-		Common.parseFullUrl();
-		Common.saveSettings();
+	private void runProxyServer() {
 
-		System.out.println(">>> Starting...");
+		System.out.println(">>> Initializing settings...");
+		updateSettings();
+
+		System.out.println(">>> Starting proxy server...");
 		ProxyRunner.runServers();
 		while (HTTPProxyServerStarter.started == 0
 				|| HttpsServerStarter_443.started == 0
@@ -32,8 +33,14 @@ public class MainConsole {
 			System.out.println(">>> Start proxy server fail, exit.");
 			System.exit(1);
 		}
+
 		System.out.println(">>> Now running...");
-		System.out.println(">>> Press Ctrl+C to exit.");
+		System.out.println(">>> Press Ctrl+C to exit. ");
+	}
+
+	private void updateSettings() {
+		Common.parseFullUrl();
+		Common.saveSettings();
 	}
 
 }
