@@ -53,7 +53,7 @@ public class MainFrame extends JFrame {
 
 	private static final int FRAME_WIDTH = 520;
 	private static final int FRAME_HEIGHT = 420;
-	private static final String FRAME_TITLE = "Webpage tunnel v0.1.1";
+	private static final String FRAME_TITLE = "Webpage tunnel v0.1.2";
 	private static final int GAP_SIZE = 3;
 	private static final int BORDER_SIZE = 6;
 	private static final String PROCOTOL_PREFIX = "http://";
@@ -354,7 +354,7 @@ public class MainFrame extends JFrame {
 
 	private void showAboutDialog() {
 		String aboutText;
-		aboutText = "Webpage tunnel v0.1\n" + "under GPLv3 write by muzuiget\n"
+		aboutText = "Webpage tunnel v0.1.2\n" + "under GPLv3 write by muzuiget\n"
 				+ "http://code.google.com/p/webpage-tunnel/\n"
 				+ "base on India Web Proxy v1.0\n"
 				+ "write by Arunava  Bhowmick\n"

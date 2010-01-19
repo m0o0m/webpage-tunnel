@@ -190,6 +190,9 @@ class HTTPProxyThreadBrowser extends Thread {
 			String data = header + "";
 			data = data.replaceFirst("\r\n\r\n",
 					"\r\nConnection: Close\r\n\r\n");
+			
+			// remove the proxy header to become high-anonymous proxy
+			data = data.replaceFirst("Proxy-Connection: keep-alive\r\n", "");
 
 			// Replace culprit KeepAlive
 			// Should have used Regex
