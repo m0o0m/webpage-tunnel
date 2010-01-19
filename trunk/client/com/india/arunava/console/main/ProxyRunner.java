@@ -51,10 +51,16 @@ public class ProxyRunner {
 				ProxyConstants.KEYSTORE_PATH);
 		System.setProperty("javax.net.ssl.keyStorePassword",
 				ProxyConstants.KEYSTORE_PASSWORD);
-		new SSLProxyStarter().start();
-		new HTTPProxyServerStarter().start();
-		new HttpsServerStarter_8443().start();
-		new HttpsServerStarter_443().start();
 
+		new HTTPProxyServerStarter().start();
+
+		if (ProxyConstants.HTTPS_ENABLED) {
+			new SSLProxyStarter().start();
+			new HttpsServerStarter_8443().start();
+			new HttpsServerStarter_443().start();
+		} else {
+			HttpsServerStarter_443.started = 1;
+			HttpsServerStarter_8443.started = 1;
+		}
 	}
 }

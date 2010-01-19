@@ -15,18 +15,24 @@ import com.india.arunava.network.utils.ProxyConstants;
 
 public class Common {
 
-	public static String runFileDirectory;
+	public static ClassLoader classLoader;
+	public static String resourcesFolder;
 	private static File file;
 
-	public static void initCertificate() {
-		ClassLoader classLoader = Common.class.getClassLoader();
+	public static void initResourcesFolder() {
+		classLoader = Common.class.getClassLoader();
 		try {
-			Common.runFileDirectory = classLoader.getResource(".").toURI()
+			Common.resourcesFolder = classLoader.getResource(".").toURI()
 					.getPath();
+		} catch (NullPointerException e) {
+			Common.resourcesFolder = System.getProperty("user.dir");
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
-		File outerCertFile = new File(Common.runFileDirectory,
+	}
+
+	public static void initCertificate() {
+		File outerCertFile = new File(Common.resourcesFolder,
 				"webpage-tunnel.cert");
 		if (!outerCertFile.exists()) {
 			try {
@@ -50,7 +56,7 @@ public class Common {
 	}
 
 	public static void initSettings() {
-		file = new File(Common.runFileDirectory, "webpage-tunnel.cfg");
+		file = new File(Common.resourcesFolder, "webpage-tunnel.cfg");
 		if (file.exists() && file.canRead()) {
 			loadSettings();
 		} else {
@@ -71,8 +77,7 @@ public class Common {
 			// ProxyConstants.webPHP_URL_HTTP = properties
 			// .getProperty("server.url");
 
-			ProxyConstants.HTTP_FULL_URL = properties
-					.getProperty("server.url");
+			ProxyConstants.HTTP_FULL_URL = properties.getProperty("server.url");
 
 			ProxyConstants.HTTPProxyHost = properties
 					.getProperty("client.http.host");
@@ -128,8 +133,7 @@ public class Common {
 			// properties
 			// .setProperty("server.url", ProxyConstants.webPHP_URL_HTTP);
 
-			properties.setProperty("server.url",
-					ProxyConstants.HTTP_FULL_URL);
+			properties.setProperty("server.url", ProxyConstants.HTTP_FULL_URL);
 
 			properties.setProperty("client.http.host",
 					ProxyConstants.HTTPProxyHost);
@@ -196,5 +200,11 @@ public class Common {
 		ProxyConstants.webPHP_HOST_HTTP = server_host;
 		ProxyConstants.webPHP_PORT_HTTP = server_port;
 		ProxyConstants.webPHP_URL_HTTP = server_url;
+	}
+
+	public static void changeSetting(String name, boolean value) {
+		if (name.equals("https")) {
+			ProxyConstants.HTTPS_ENABLED = value;
+		}
 	}
 }
