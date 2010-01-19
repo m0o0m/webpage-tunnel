@@ -307,7 +307,7 @@ public class MainFrame extends JFrame {
 				|| HttpsServerStarter_443.started == 0
 				|| HttpsServerStarter_8443.started == 0) {
 			try {
-				Thread.sleep(500);
+				Thread.sleep(250);
 			} catch (InterruptedException e1) {
 			}
 		}
