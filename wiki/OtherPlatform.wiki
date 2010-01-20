@@ -4,7 +4,7 @@
 
 可以在[http://www2s.biglobe.ne.jp/~dat/java/project/jvm/download_en.html Mysaifu JVM]下运行，但不支持HTTPS。
 
-    # 到Mysaifu JVM的［http://sourceforge.jp/projects/mysaifujvm/releases/ 下载页］下载“jvm.0.4.7-bin.zip“，把解压得cab文件复制到手机上安装。
+    # 到Mysaifu JVM的[http://sourceforge.jp/projects/mysaifujvm/releases/ 下载页]下载“jvm.0.4.7-bin.zip“，把解压得cab文件复制到手机上安装。
     # 按照[http://code.google.com/p/webpage-tunnel/wiki/Readme 使用说明]在电脑上运行一下程序，设置好，测试代理是否可以用。
     # 然后把“webpage-tunnel.jar”和“webpage-tunnel.cfg”复制到手机上，如记忆卡上的“webpage-tunnel”文件夹。
     # 不支持自动联网，所以要随便找其它程序把手机连上网络，如Opera Mobile，GPRS和Wifi都可以。
@@ -38,3 +38,4 @@ Opera Mobile的支持代理的，但在没有提供界面设置
     # “HTTP server“填”127.0.0.1:6050“
     # 勾选“Use HTTP”
     # 点击“Save”保存
+这样切换起来比较麻烦，但Opera Mobile还支持pac文件的，可以把Foxyproxy的列表转换一份。
