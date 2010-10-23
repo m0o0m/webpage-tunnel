@@ -11,16 +11,16 @@
     # 运行Mysaifu JVM，在主界面按下图设置        
         * “Type”选“JAR file”，并选择“webpage-tunnel.jar”
         * 勾选“Show console”
-        http://dl.dropbox.com/u/2992664/wiki/Mysaifu_JVM.png
+        https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?url=http%3A%2F%2Fdl.dropbox.com%2Fu%2F2992664%2Fwiki%2FMysaifu_JVM.png&container=focus&gadget=a&no_expand=1&resize_h=0&rewriteMime=image%2F*
     # 点击“Options...”作进一步设置。这里有两个2个地方要填，
         * “Command line arguments”填上“-c -n”
         * “Current directory”填上“webpage-tunnel.jar“所在的文件夹路径，这里“Browser...”好像失效了，直接填写吧，如“\Storage Card\webpage-tunnel\“
-        http://dl.dropbox.com/u/2992664/wiki/Mysaifu_JVM_general.png
+        https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?url=http%3A%2F%2Fdl.dropbox.com%2Fu%2F2992664%2Fwiki%2FMysaifu_JVM_general.png&container=focus&gadget=a&no_expand=1&resize_h=0&rewriteMime=image%2F*
     # 切换到“Memory”选项卡，这里的设置数值看你的手机性能
         * “Max heap size”改成8M
         * “Java stack size”改成64KB
         * “Native stack size”改成320KB
-        http://dl.dropbox.com/u/2992664/wiki/Mysaifu_JVM_Memory.png
+        https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?url=http%3A%2F%2Fdl.dropbox.com%2Fu%2F2992664%2Fwiki%2FMysaifu_JVM_Memory.png&container=focus&gadget=a&no_expand=1&resize_h=0&rewriteMime=image%2F*
     # 点击OK按钮回到主界面，点击“Execute”运行程序，稍等一会，在控制台看到以下输出即代表运行成功了。
 {{{
 Running in console mode
