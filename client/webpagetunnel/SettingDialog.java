@@ -70,8 +70,12 @@ public class SettingDialog extends JDialog implements MouseListener {
 	}
 
 	private void initComponents() {
-		rb = ResourceBundle.getBundle("webpagetunnel.SettingDialog",
-				Locale.getDefault());
+		try {
+			rb = ResourceBundle.getBundle("webpagetunnel.SettingDialog",
+					Locale.getDefault());
+		} catch (Exception e) {
+			rb = ResourceBundle.getBundle("webpagetunnel.SettingDialog_en_US");
+		}
 		logLevelItem = new String[4];
 		logLevelItem[0] = rb.getString("Simple");
 		logLevelItem[1] = rb.getString("Normal");

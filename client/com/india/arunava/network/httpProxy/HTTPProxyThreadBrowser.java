@@ -34,6 +34,8 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Date;
 
+import org.apache.commons.codec.binary.Base64;
+
 import com.india.arunava.network.sslProxy.SSLProxy;
 import com.india.arunava.network.utils.ProxyConstants;
 import com.india.arunava.network.utils.SimpleEncryptDecrypt;
@@ -84,8 +86,7 @@ class HTTPProxyThreadBrowser extends Thread {
 						+ ":"
 						+ ProxyConstants.ORGANIZATION_HTTP_PROXY_USER_PASS;
 				proxyAuth = "Basic "
-						+ new sun.misc.BASE64Encoder().encode(authString
-								.getBytes());
+						+ Base64.encodeBase64String(authString.getBytes());
 			}
 
 			int rdL;
@@ -110,9 +111,10 @@ class HTTPProxyThreadBrowser extends Thread {
 			final String allInpRequest = header.toString();
 
 			// modify: if it is https request, resend to sslproxy
-			if (ProxyConstants.HTTPS_ENABLED && allInpRequest.startsWith("CONNECT ")) {
-				new SSLProxy(incoming, incoming.getInputStream(), incoming
-						.getOutputStream(), allInpRequest).start();
+			if (ProxyConstants.HTTPS_ENABLED
+					&& allInpRequest.startsWith("CONNECT ")) {
+				new SSLProxy(incoming, incoming.getInputStream(),
+						incoming.getOutputStream(), allInpRequest).start();
 				return;
 			}
 			// modify end
@@ -180,8 +182,8 @@ class HTTPProxyThreadBrowser extends Thread {
 
 			// Get Content length
 			String contentLenght = "";
-			final int contIndx = header.toString().toLowerCase().indexOf(
-					"content-length: ");
+			final int contIndx = header.toString().toLowerCase()
+					.indexOf("content-length: ");
 			if (contIndx != -1) {
 				final int endI = header.indexOf("\r\n", contIndx + 17);
 				contentLenght = header.substring(contIndx + 16, endI);
@@ -190,7 +192,7 @@ class HTTPProxyThreadBrowser extends Thread {
 			String data = header + "";
 			data = data.replaceFirst("\r\n\r\n",
 					"\r\nConnection: Close\r\n\r\n");
-			
+
 			// remove the proxy header to become high-anonymous proxy
 			data = data.replaceFirst("Proxy-Connection: keep-alive\r\n", "");
 
@@ -316,5 +318,4 @@ class HTTPProxyThreadBrowser extends Thread {
 					+ count1 + count2;
 		}
 	}
-
 }
