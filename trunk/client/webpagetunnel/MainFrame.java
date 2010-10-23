@@ -53,7 +53,7 @@ import com.india.arunava.network.utils.ProxyConstants;
 @SuppressWarnings("serial")
 public class MainFrame extends JFrame {
 
-	private static final int FRAME_WIDTH = 520;
+	private static final int FRAME_WIDTH = 560;
 	private static final int FRAME_HEIGHT = 420;
 	private static final String FRAME_TITLE = "Webpage tunnel v0.1.3";
 	private static final int GAP_SIZE = 3;
@@ -98,8 +98,12 @@ public class MainFrame extends JFrame {
 	}
 
 	private void initComponents() {
-		rb = ResourceBundle.getBundle("webpagetunnel.MainFrame",
-				Locale.getDefault());
+		try {
+			rb = ResourceBundle.getBundle("webpagetunnel.MainFrame",
+					Locale.getDefault());
+		} catch (Exception e) {
+			rb = ResourceBundle.getBundle("webpagetunnel.MainFrame_en_US");
+		}
 		proxyPageTextField = new JTextField(ProxyConstants.HTTP_FULL_URL);
 		portTextField = new JTextField(
 				String.valueOf(ProxyConstants.HTTPProxyPort));
