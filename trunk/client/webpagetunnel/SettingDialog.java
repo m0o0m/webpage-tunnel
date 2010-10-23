@@ -11,6 +11,8 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -33,7 +35,6 @@ public class SettingDialog extends JDialog implements MouseListener {
 
 	private static final int DIALOG_WIDTH = 400;
 	private static final int DIALOG_HEIGHT = 400;
-	private static final String DIALOG_TITLE = "高级设置";
 	private static final int GAP_SIZE = 3;
 	private static final int BORDER_SIZE = 6;
 
@@ -49,7 +50,8 @@ public class SettingDialog extends JDialog implements MouseListener {
 			sslPort443TextField, sslHost8443TextField, sslPort8443TextField;
 	private JPasswordField proxyPasswordTextField;
 
-	private String[] logLevelItem = { "简洁", "一般", "详细", "调试" };
+	private String[] logLevelItem;
+	private ResourceBundle rb;
 
 	public SettingDialog() {
 		initComponents();
@@ -68,30 +70,37 @@ public class SettingDialog extends JDialog implements MouseListener {
 	}
 
 	private void initComponents() {
+		rb = ResourceBundle.getBundle("webpagetunnel.SettingDialog",
+				Locale.getDefault());
+		logLevelItem = new String[4];
+		logLevelItem[0] = rb.getString("Simple");
+		logLevelItem[1] = rb.getString("Normal");
+		logLevelItem[2] = rb.getString("Detail");
+		logLevelItem[3] = rb.getString("Debug");
 		contentPanel = new JPanel();
-		useProxyCheckBox = new JCheckBox("本机通过其它代理连接到互联网",
+		useProxyCheckBox = new JCheckBox(rb.getString("ThroughOtherProxy"),
 				ProxyConstants.ORGANIZATION_HTTP_PROXY_ENABLED);
 		logLevelComboBox = new JComboBox(logLevelItem);
-		bufferSizeTextField = new JTextField(String
-				.valueOf(ProxyConstants.MAX_BUFFER));
-		proxyHostTextField = new JTextField(String
-				.valueOf(ProxyConstants.ORGANIZATION_HTTP_PROXY_HOST));
-		proxyPortTextField = new JTextField(String
-				.valueOf(ProxyConstants.ORGANIZATION_HTTP_PROXY_PORT));
-		proxyUsernameTextField = new JTextField(String
-				.valueOf(ProxyConstants.ORGANIZATION_HTTP_PROXY_USER_NAME));
-		proxyPasswordTextField = new JPasswordField(String
-				.valueOf(ProxyConstants.ORGANIZATION_HTTP_PROXY_USER_PASS));
-		sslHost443TextField = new JTextField(String
-				.valueOf(ProxyConstants.HTTPSServer_443));
-		sslPort443TextField = new JTextField(String
-				.valueOf(ProxyConstants.HTTPSPort_443));
-		sslHost8443TextField = new JTextField(String
-				.valueOf(ProxyConstants.HTTPSServer_8443));
-		sslPort8443TextField = new JTextField(String
-				.valueOf(ProxyConstants.HTTPSPort_8443));
-		okayButton = new JButton("确定");
-		cancelButton = new JButton("取消");
+		bufferSizeTextField = new JTextField(
+				String.valueOf(ProxyConstants.MAX_BUFFER));
+		proxyHostTextField = new JTextField(
+				String.valueOf(ProxyConstants.ORGANIZATION_HTTP_PROXY_HOST));
+		proxyPortTextField = new JTextField(
+				String.valueOf(ProxyConstants.ORGANIZATION_HTTP_PROXY_PORT));
+		proxyUsernameTextField = new JTextField(
+				String.valueOf(ProxyConstants.ORGANIZATION_HTTP_PROXY_USER_NAME));
+		proxyPasswordTextField = new JPasswordField(
+				String.valueOf(ProxyConstants.ORGANIZATION_HTTP_PROXY_USER_PASS));
+		sslHost443TextField = new JTextField(
+				String.valueOf(ProxyConstants.HTTPSServer_443));
+		sslPort443TextField = new JTextField(
+				String.valueOf(ProxyConstants.HTTPSPort_443));
+		sslHost8443TextField = new JTextField(
+				String.valueOf(ProxyConstants.HTTPSServer_8443));
+		sslPort8443TextField = new JTextField(
+				String.valueOf(ProxyConstants.HTTPSPort_8443));
+		okayButton = new JButton(rb.getString("OK"));
+		cancelButton = new JButton(rb.getString("Cancel"));
 		proxyHostTextField
 				.setEnabled(ProxyConstants.ORGANIZATION_HTTP_PROXY_ENABLED);
 		proxyPortTextField
@@ -114,7 +123,7 @@ public class SettingDialog extends JDialog implements MouseListener {
 
 	private void setupMainWindow() {
 		setModal(true);
-		setTitle(DIALOG_TITLE);
+		setTitle(rb.getString("AdvanceSetting"));
 		setSize(DIALOG_WIDTH, DIALOG_HEIGHT);
 		// setResizable(false);
 
@@ -151,42 +160,56 @@ public class SettingDialog extends JDialog implements MouseListener {
 		center_panel.setLayout(new BoxLayout(center_panel, BoxLayout.Y_AXIS));
 
 		JPanel general_panel = new JPanel();
-		general_panel.setBorder(new CompoundBorder(new TitledBorder("常规"),
-				new EmptyBorder(0, GAP_SIZE, GAP_SIZE, GAP_SIZE)));
+		general_panel.setBorder(new CompoundBorder(new TitledBorder(rb
+				.getString("Regular")), new EmptyBorder(0, GAP_SIZE, GAP_SIZE,
+				GAP_SIZE)));
 		general_panel.setLayout(new GridBagLayout());
-		general_panel.add(new JLabel("日志详细程度: "), constraintLabel);
+		general_panel.add(new JLabel(rb.getString("LogLevel") + ": "),
+				constraintLabel);
 		general_panel.add(logLevelComboBox, constraintFill);
-		general_panel.add(new JLabel("缓存大小: "), constraintLabel);
+		general_panel.add(new JLabel(rb.getString("CacheSize") + ": "),
+				constraintLabel);
 		general_panel.add(bufferSizeTextField, constraintFillEnd);
 		general_panel.add(new JLabel());
 
 		JPanel proxy_panel = new JPanel();
-		proxy_panel.setBorder(new CompoundBorder(new TitledBorder("代理"),
-				new EmptyBorder(0, GAP_SIZE, GAP_SIZE, GAP_SIZE)));
+		proxy_panel.setBorder(new CompoundBorder(new TitledBorder(rb
+				.getString("Proxy")), new EmptyBorder(0, GAP_SIZE, GAP_SIZE,
+				GAP_SIZE)));
 		proxy_panel.setLayout(new GridBagLayout());
 		proxy_panel.add(useProxyCheckBox, constraintFillEnd);
-		proxy_panel.add(new JLabel("主机 IP: "), constraintLabel);
+		proxy_panel.add(new JLabel(rb.getString("Host") + ": "),
+				constraintLabel);
 		proxy_panel.add(proxyHostTextField, constraintFill);
-		proxy_panel.add(new JLabel("端口: "), constraintLabel);
+		proxy_panel.add(new JLabel(rb.getString("Port") + ": "),
+				constraintLabel);
 		proxy_panel.add(proxyPortTextField, constraintFillEnd);
-		proxy_panel.add(new JLabel("用户名: "), constraintLabel);
+		proxy_panel.add(new JLabel(rb.getString("Username") + ": "),
+				constraintLabel);
 		proxy_panel.add(proxyUsernameTextField, constraintFill);
-		proxy_panel.add(new JLabel("密码: "), constraintLabel);
+		proxy_panel.add(new JLabel(rb.getString("Password") + ": "),
+				constraintLabel);
 		proxy_panel.add(proxyPasswordTextField, constraintFillEnd);
 
 		JPanel https_panel = new JPanel();
 		https_panel.setBorder(new CompoundBorder(new TitledBorder("HTTPS"),
 				new EmptyBorder(0, GAP_SIZE, GAP_SIZE, GAP_SIZE)));
 		https_panel.setLayout(new GridBagLayout());
-		https_panel.add(new JLabel("远程 SSL 端口为 443"), constraintFillEnd);
-		https_panel.add(new JLabel("主机 IP: "), constraintLabel);
+		https_panel.add(new JLabel(rb.getString("RemoteSllPortIs443")),
+				constraintFillEnd);
+		https_panel.add(new JLabel(rb.getString("Host") + ": "),
+				constraintLabel);
 		https_panel.add(sslHost443TextField, constraintFill);
-		https_panel.add(new JLabel("端口: "), constraintLabel);
+		https_panel.add(new JLabel(rb.getString("Port") + ": "),
+				constraintLabel);
 		https_panel.add(sslPort443TextField, constraintFillEnd);
-		https_panel.add(new JLabel("远程 SSL 端口为 8443"), constraintFillEnd);
-		https_panel.add(new JLabel("主机 IP: "), constraintLabel);
+		https_panel.add(new JLabel(rb.getString("RemoteSllProtIs8443")),
+				constraintFillEnd);
+		https_panel.add(new JLabel(rb.getString("Username") + ": "),
+				constraintLabel);
 		https_panel.add(sslHost8443TextField, constraintFill);
-		https_panel.add(new JLabel("端口: "), constraintLabel);
+		https_panel.add(new JLabel(rb.getString("Password") + ": "),
+				constraintLabel);
 		https_panel.add(sslPort8443TextField, constraintFillEnd);
 
 		center_panel.add(general_panel);

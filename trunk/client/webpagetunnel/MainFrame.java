@@ -24,6 +24,8 @@ import java.io.PrintStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -53,7 +55,7 @@ public class MainFrame extends JFrame {
 
 	private static final int FRAME_WIDTH = 520;
 	private static final int FRAME_HEIGHT = 420;
-	private static final String FRAME_TITLE = "Webpage tunnel v0.1.2";
+	private static final String FRAME_TITLE = "Webpage tunnel v0.1.3";
 	private static final int GAP_SIZE = 3;
 	private static final int BORDER_SIZE = 6;
 	private static final String PROCOTOL_PREFIX = "http://";
@@ -71,6 +73,7 @@ public class MainFrame extends JFrame {
 	private Timer timer;
 
 	private ButtonMouseAdapter buttonMouseAdapter;
+	private ResourceBundle rb;
 
 	public MainFrame() {
 		try {
@@ -81,7 +84,7 @@ public class MainFrame extends JFrame {
 		initComponents();
 		setupGUI();
 		setUpEventListener();
-		
+
 		initRunStatus();
 	}
 
@@ -95,22 +98,25 @@ public class MainFrame extends JFrame {
 	}
 
 	private void initComponents() {
+		rb = ResourceBundle.getBundle("webpagetunnel.MainFrame",
+				Locale.getDefault());
 		proxyPageTextField = new JTextField(ProxyConstants.HTTP_FULL_URL);
-		portTextField = new JTextField(String
-				.valueOf(ProxyConstants.HTTPProxyPort));
+		portTextField = new JTextField(
+				String.valueOf(ProxyConstants.HTTPProxyPort));
 		logTextArea = new JTextArea();
-		autoHideCheckBox = new JCheckBox("自动启动并最小化",
+		autoHideCheckBox = new JCheckBox(
+				rb.getString("AutoStartupAndMinimize"),
 				ProxyConstants.AUTO_START_AND_HIDE);
-		useEncryptCheckBox = new JCheckBox("使用加密传输",
+		useEncryptCheckBox = new JCheckBox(rb.getString("EnableEncryption"),
 				ProxyConstants.ENCRYPTION_ENABLED);
-		testButton = new JButton("测试");
-		settingButton = new JButton("高级设置");
-		runButton = new JButton("启动");
-		hideButton = new JButton("最小化");
-		aboutButton = new JButton("关于");
-		exitButton = new JButton("退出");
-		displayItem = new MenuItem("显示");
-		exitItem = new MenuItem("退出");
+		testButton = new JButton(rb.getString("Test"));
+		settingButton = new JButton(rb.getString("Advance"));
+		runButton = new JButton(rb.getString("Startup"));
+		hideButton = new JButton(rb.getString("Minimize"));
+		aboutButton = new JButton(rb.getString("About"));
+		exitButton = new JButton(rb.getString("Exit"));
+		displayItem = new MenuItem(rb.getString("Show"));
+		exitItem = new MenuItem(rb.getString("Exit"));
 		transferLabel = new JLabel("0.00 KB");
 		timer = new Timer(3000, null);
 		contentPanel = new JPanel();
@@ -153,7 +159,8 @@ public class MainFrame extends JFrame {
 			Dimension iconDimension = tray.getTrayIconSize();
 			trayIcon = new TrayIcon(iconImage.getScaledInstance(
 					iconDimension.width, iconDimension.height,
-					Image.SCALE_SMOOTH), "流量统计: 0.00 KB");
+					Image.SCALE_SMOOTH), rb.getString("TransferedDataSize")
+					+ ": 0.00 KB");
 			popup.add(displayItem);
 			popup.add(exitItem);
 			trayIcon.setPopupMenu(popup);
@@ -164,23 +171,24 @@ public class MainFrame extends JFrame {
 			}
 			return;
 		} else {
-			String message_text = "你的系统不支持最小化到通知区域";
-			JOptionPane.showMessageDialog(null, message_text, "错误",
-					JOptionPane.ERROR_MESSAGE);
+			String message_text = rb.getString("YouSystemNotSupportMinimize");
+			JOptionPane.showMessageDialog(null, message_text,
+					rb.getString("Error"), JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
 	private void setupContentPanel() {
 
 		JPanel north_panel = new JPanel();
-		north_panel.setBorder(new CompoundBorder(new TitledBorder("选项"),
-				new EmptyBorder(0, GAP_SIZE, GAP_SIZE, GAP_SIZE)));
+		north_panel.setBorder(new CompoundBorder(new TitledBorder(rb
+				.getString("Option")), new EmptyBorder(0, GAP_SIZE, GAP_SIZE,
+				GAP_SIZE)));
 		north_panel.setLayout(new GridLayout(2, 0, GAP_SIZE, GAP_SIZE));
 
 		JPanel north_panel_child0 = new JPanel();
 		north_panel_child0.setLayout(new BoxLayout(north_panel_child0,
 				BoxLayout.X_AXIS));
-		north_panel_child0.add(new JLabel("代理网页地址: "));
+		north_panel_child0.add(new JLabel(rb.getString("ServerUrl")));
 		north_panel_child0.add(Box.createHorizontalStrut(GAP_SIZE));
 		north_panel_child0.add(proxyPageTextField);
 		north_panel_child0.add(Box.createHorizontalStrut(GAP_SIZE));
@@ -190,7 +198,7 @@ public class MainFrame extends JFrame {
 		JPanel north_panel_child1 = new JPanel();
 		north_panel_child1.setLayout(new BoxLayout(north_panel_child1,
 				BoxLayout.X_AXIS));
-		north_panel_child1.add(new JLabel("本地代理端口: "));
+		north_panel_child1.add(new JLabel(rb.getString("ClientPort")));
 		north_panel_child1.add(Box.createHorizontalStrut(GAP_SIZE));
 		north_panel_child1.add(portTextField);
 		north_panel_child1.add(Box.createHorizontalStrut(GAP_SIZE));
@@ -206,8 +214,9 @@ public class MainFrame extends JFrame {
 		north_panel.add(north_panel_child1);
 
 		JPanel center_panel = new JPanel();
-		center_panel.setBorder(new CompoundBorder(new TitledBorder("日志"),
-				new EmptyBorder(0, GAP_SIZE, GAP_SIZE, GAP_SIZE)));
+		center_panel.setBorder(new CompoundBorder(new TitledBorder(rb
+				.getString("Log")), new EmptyBorder(0, GAP_SIZE, GAP_SIZE,
+				GAP_SIZE)));
 		center_panel.setLayout(new BorderLayout());
 		center_panel.add(new JScrollPane(logTextArea), BorderLayout.CENTER);
 
@@ -216,7 +225,8 @@ public class MainFrame extends JFrame {
 
 		JPanel south_panel_child0 = new JPanel();
 		south_panel_child0.setLayout(new FlowLayout(FlowLayout.LEFT));
-		south_panel_child0.add(new JLabel("流量统计: "));
+		south_panel_child0.add(new JLabel(rb.getString("TransferedDataSize")
+				+ ": "));
 		south_panel_child0.add(transferLabel);
 
 		JPanel south_panel_child1 = new JPanel();
@@ -240,9 +250,9 @@ public class MainFrame extends JFrame {
 		String message_text;
 		String urlText = proxyPageTextField.getText().trim();
 		if (urlText.isEmpty()) {
-			message_text = "未输入代理网页。";
-			JOptionPane.showMessageDialog(null, message_text, "错误",
-					JOptionPane.ERROR_MESSAGE);
+			message_text = rb.getString("NotInputServerUrl");
+			JOptionPane.showMessageDialog(null, message_text,
+					rb.getString("Error"), JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		if (!urlText.startsWith(PROCOTOL_PREFIX)) {
@@ -258,9 +268,9 @@ public class MainFrame extends JFrame {
 			server = new URL(urlText + "?test=1");
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
-			message_text = "不是一个合法的http地址！";
-			JOptionPane.showMessageDialog(null, message_text, "错误",
-					JOptionPane.ERROR_MESSAGE);
+			message_text = rb.getString("NotAvailableHttpUrl");
+			JOptionPane.showMessageDialog(null, message_text,
+					rb.getString("Error"), JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
@@ -274,20 +284,20 @@ public class MainFrame extends JFrame {
 				String response_text = reader.readLine();
 				boolean isAvaiable = response_text.contains("Test Passed");
 				if (isAvaiable) {
-					message_text = "代理网页是有效的。";
+					message_text = rb.getString("ServerUrlIsAvailable");
 				} else {
-					message_text = "代理网页有回应，但可能不是一个有效的代理网页。";
+					message_text = rb.getString("ServerUrlMayAvailable");
 				}
 			} else {
-				message_text = "代理网页是无效的。";
+				message_text = rb.getString("ServerUrlIsInvalid");
 			}
-			JOptionPane.showMessageDialog(null, message_text, "信息",
-					JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, message_text,
+					rb.getString("Info"), JOptionPane.INFORMATION_MESSAGE);
 		} catch (IOException e) {
 			e.printStackTrace();
-			message_text = "访问代理网页出现错误。";
-			JOptionPane.showMessageDialog(null, message_text, "错误",
-					JOptionPane.ERROR_MESSAGE);
+			message_text = rb.getString("AccessProxyUrlWrong");
+			JOptionPane.showMessageDialog(null, message_text,
+					rb.getString("Error"), JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -335,7 +345,8 @@ public class MainFrame extends JFrame {
 			transferText = String.format("%.2f MB", transfer / 1024);
 		}
 		transferLabel.setText(transferText);
-		trayIcon.setToolTip("流量统计: " + transferText);
+		trayIcon.setToolTip(rb.getString("TransferedDataSize") + ": "
+				+ transferText);
 	}
 
 	private void showSettingDialog() {
@@ -349,7 +360,8 @@ public class MainFrame extends JFrame {
 
 	private void showAboutDialog() {
 		String aboutText;
-		aboutText = "Webpage tunnel v0.1.2\n" + "under GPLv3 write by muzuiget\n"
+		aboutText = "Webpage tunnel v0.1.3\n"
+				+ "under GPLv3 write by muzuiget\n"
 				+ "http://code.google.com/p/webpage-tunnel/\n"
 				+ "base on India Web Proxy v1.0\n"
 				+ "write by Arunava  Bhowmick\n"
