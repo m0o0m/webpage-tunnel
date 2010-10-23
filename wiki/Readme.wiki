@@ -9,11 +9,11 @@
 
 = 服务端 =
 服务端是个PHP脚本，所以要运行在PHP空间上。
-    # 到[http://code.google.com/p/webpage-tunnel/downloads/list 项目下载页]下载服务端PHP脚本，解压出“proxy.php”，你可以改成其它比较迷惑性的名字，如“helloworld.php”，上传到你的PHP空间上。
+    # 到[http://code.google.com/p/webpage-tunnel/downloads/list 项目下载页]下载，解压出的“proxy.php”，你可以改成其它比较迷惑性的名字，如“helloworld.php”，上传到你的PHP空间上。
     # 这个php的地址就是在下面在客户端设置的“代理网页地址”，如果你用浏览器访问就会跳到Google首页。
     # 最好测试一下你的PHP空间是否满足运行需求，方法可看[http://code.google.com/p/webpage-tunnel/wiki/ServerTest 服务端测试说明]。
 
-http://dl.dropbox.com/u/2992664/wiki/webpage-tunnel.png
+https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?url=http%3A%2F%2Fdl.dropbox.com%2Fu%2F2992664%2Fwiki%2Fwebpage-tunnel.png&container=focus&gadget=a&no_expand=1&resize_h=0&rewriteMime=image%2F*
 
 = 客户端 =
 
@@ -24,4 +24,4 @@ http://dl.dropbox.com/u/2992664/wiki/webpage-tunnel.png
         * Linux用户运行webpage-tunnel.sh
     # 在“代理网页地址”里填上你上传的php文件地址，在“本地代理端口”里填上开启代理服务的端口，默认使用6050。
     # 点击“启动”按钮即可启动代理服务，在你的浏览器你把HTTP代理设置为“127.0.0.1:6050”，即可使用代理。
-    # 推荐使用加密传输，牺牲一点觉察不到的速度来保证数据安全，也可以阅读[http://code.google.com/p/webpage-tunnel/wiki/AdvancedSetting 高级设置]里的说明。
+    # 推荐使用加密传输，牺牲一点觉察不到的速度来保证数据安全，注意加密传输为简单的对称加密，也可以阅读[http://code.google.com/p/webpage-tunnel/wiki/AdvancedSetting 高级设置]里的说明。
