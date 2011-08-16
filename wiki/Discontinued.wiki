@@ -1,0 +1,7 @@
+#summary 停止开发
+
+这个项目属于二次开发，而上游[http://webproxytunnel.sourceforge.net/ India Web Proxy项目]已经停止开发了，加上作者精力有限，所以这个项目停止开发了。
+
+程序依然可以用，但是可能会有些问题，不能满足所有人的需求，但仍然欢迎有能力者Fork出去自己维护一份。
+
+停止开发的原因是有一个更强大并处于积极开发中的的项目[http://code.google.com/p/hyk-proxy/ hyk-proxy]，推荐使用。
