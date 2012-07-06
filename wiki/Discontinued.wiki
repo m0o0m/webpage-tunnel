@@ -8,8 +8,8 @@
 
 如果你在找相似技术的代理项目，有两个选择
 
-[http://code.google.com/p/goagent/ goagent]
-[http://code.google.com/p/snova/ snova]
+[http://code.google.com/p/goagent/ http://code.google.com/p/goagent/]
+[http://code.google.com/p/snova/ http://code.google.com/p/goagent/]
 
 This Project is second development project, and the upstream [http://webproxytunnel.sourceforge.net/ India Web Proxy] have gone. I lost interesting on this project, so this project is discontinued
 
@@ -20,5 +20,5 @@ The program may still usable, but maybe has some flaw, if your not satisfied it,
 If you are finding something projects like this, there is two great project, They both in active development and support many server platform(PHP/Java/Python) and client
 platform(Window/Linux/Mac/Android/iOS). 
 
-[http://code.google.com/p/goagent/ goagent]
-[http://code.google.com/p/snova/ snova]
+[http://code.google.com/p/goagent/ http://code.google.com/p/goagent/]
+[http://code.google.com/p/snova/ http://code.google.com/p/goagent/]
