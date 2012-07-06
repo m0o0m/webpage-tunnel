@@ -6,4 +6,19 @@
 
 程序依然可以用，但是可能会有些问题，不能满足所有人的需求，但仍然欢迎有能力者Fork出去自己维护一份。
 
-停止开发的原因是有一个更强大并处于积极开发中的的项目[http://code.google.com/p/hyk-proxy/ hyk-proxy]，推荐使用。
+如果你在找相似技术的代理项目，有两个选择
+
+[http://code.google.com/p/goagent/ goagent]
+[http://code.google.com/p/snova/ snova]
+
+This Project is second development project, and the upstream [http://webproxytunnel.sourceforge.net/ India Web Proxy] have gone. I lost interesting on this project, so this project is discontinued
+
+So, please DO NOT report bug or email me about this project, sorry.
+
+The program may still usable, but maybe has some flaw, if your not satisfied it, feel free to fork.
+
+If you are finding something projects like this, there is two great project, They both in active development and support many server platform(PHP/Java/Python) and client
+platform(Window/Linux/Mac/Android/iOS). 
+
+[http://code.google.com/p/goagent/ goagent]
+[http://code.google.com/p/snova/ snova]
