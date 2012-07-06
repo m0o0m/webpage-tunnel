@@ -12,7 +12,7 @@
 
 [http://code.google.com/p/goagent/ http://code.google.com/p/goagent/]
 
-[http://code.google.com/p/snova/ http://code.google.com/p/goagent/]
+[http://code.google.com/p/snova/ http://code.google.com/p/snova/]
 
 = Discontinued =
 
@@ -27,4 +27,4 @@ platform(Window/Linux/Mac/Android/iOS).
 
 [http://code.google.com/p/goagent/ http://code.google.com/p/goagent/]
 
-[http://code.google.com/p/snova/ http://code.google.com/p/goagent/]
+[http://code.google.com/p/snova/ http://code.google.com/p/snova/]
