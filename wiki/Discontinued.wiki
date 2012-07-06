@@ -1,5 +1,7 @@
 #summary 停止开发
 
+= 停止开发 =
+
 这个项目属于二次开发，而上游[http://webproxytunnel.sourceforge.net/ India Web Proxy项目]已经停止开发了，加上作者精力有限，所以这个项目停止开发了。
 
 请勿再报bug和特性请求，抱歉了，各位。
@@ -9,7 +11,10 @@
 如果你在找相似技术的代理项目，有两个选择
 
 [http://code.google.com/p/goagent/ http://code.google.com/p/goagent/]
+
 [http://code.google.com/p/snova/ http://code.google.com/p/goagent/]
+
+= Discontinued =
 
 This Project is second development project, and the upstream [http://webproxytunnel.sourceforge.net/ India Web Proxy] have gone. I lost interesting on this project, so this project is discontinued
 
@@ -21,4 +26,5 @@ If you are finding something projects like this, there is two great project, The
 platform(Window/Linux/Mac/Android/iOS). 
 
 [http://code.google.com/p/goagent/ http://code.google.com/p/goagent/]
+
 [http://code.google.com/p/snova/ http://code.google.com/p/goagent/]
